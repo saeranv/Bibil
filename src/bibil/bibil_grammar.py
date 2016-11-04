@@ -734,19 +734,16 @@ class Grammar:
         if not chk_apt:
             print 'Analysis inputs are missing!'
             chk_apt = False
-        if not chk_sc: 
-            scale_ = 1.
-            chk_sc = True
         if not chk_val:
             val_num = len(analysis_ref)
             value_ref = [0]*val_num
             chk_val = True
         elif chk_val and type(value_ref[0]) == type(''): #should be more explicit
             #If value is a formula
-            if chk_sc and chk_apt:
+            if chk_apt:
                 value_ref = B.apply_formula2points(value_ref,analysis_ref)
             
-        if chk_apt and chk_val and chk_sc: 
+        if chk_apt and chk_val: 
             #Convert from guid 
             if S.is_guid(analysis_ref[0]):
                 analysis_pts = map(lambda p: rs.coerce3dpoint(p),analysis_ref)

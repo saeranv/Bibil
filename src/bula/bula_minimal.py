@@ -323,7 +323,10 @@ class Bula:
                 vizpt = rc.Geometry.Point3d(bpt[0],bpt[1],val)
                 buladata.bpt_viz_lst[i] = vizpt
 
+    def set_bula_line4viz(self,shape_node_lst):
         #Extract bulapt for each lot and visualize as line graph
+        pass
+        """
         line = []
         newlots = []
         for lot in lots:
@@ -339,5 +342,6 @@ class Bula:
         
         pt = line
         """
+
 if True:
     sc.sticky['Bula'] = Bula
