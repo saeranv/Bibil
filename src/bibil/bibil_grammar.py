@@ -489,8 +489,8 @@ class Grammar:
             bula_node,bptlst = False,False
             setht = 21. #default ht = midrise
             bula_node = n_.search_up_tree(lambda n: n.grammar.type['bula'])
-            ht_node = n_.search_up_tree(lambda n: n.grammar.type['height'])
-            print ht_node
+            #ht_node = n_.search_up_tree(lambda n: n.grammar.type['height'])
+            #print bula_node
             #print n_.grammar.type['height']
             #print n_.parent
             #print n_.parent.parent.grammar.type['bula']
@@ -510,6 +510,7 @@ class Grammar:
                     val_lst = n_.grammar.type['bula_data'].value_lst
                     ht_factor = min(val_lst)#sum(val_lst)/float(len(val_lst))
                     setht = ht_factor#1000.*ht_factor
+                    #print setht
                     ##debug.extend(n_.grammar.type['bula_data'].bpt_lst)
                 return setht
             
@@ -724,12 +725,10 @@ class Grammar:
         #Get the inputs
         analysis_ref = PD_['bula_point_lst']
         value_ref = PD_['bula_value_lst']
-        scale_ = PD_['bula_scale']
         
         ##Check to see what are input combo
         chk_apt = filter(lambda x: x!=None,analysis_ref) != []
         chk_val = filter(lambda x: x!=None,value_ref) != []
-        chk_sc = scale_ != None
         
         #Set defaults or add warnings
         if not chk_apt:
@@ -742,9 +741,10 @@ class Grammar:
             val_num = len(analysis_ref)
             value_ref = [0]*val_num
             chk_val = True
-        elif type(value_ref[0]) == type(''): #should be more explicit
+        elif chk_val and type(value_ref[0]) == type(''): #should be more explicit
             #If value is a formula
-            value_ref = B.apply_formula2points(value_ref,analysis_ref)
+            if chk_sc and chk_apt:
+                value_ref = B.apply_formula2points(value_ref,analysis_ref)
             
         if chk_apt and chk_val and chk_sc: 
             #Convert from guid 
@@ -756,7 +756,7 @@ class Grammar:
             lst_plain_pt_lst, lst_value_lst = B.getpoints4lot(shape_leaves,analysis_ref,value_ref)
             #Make bula point for each lot
             B.generate_bula_point(shape_leaves,lst_plain_pt_lst,lst_value_lst)
-            B.set_bula_height4viz(shape_leaves,scale_)
+            B.set_bula_height4viz(shape_leaves)
     def meta_tree(self,temp_node_,PD_):
         def inc_depth(n):
             if n.parent:

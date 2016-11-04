@@ -249,8 +249,6 @@ class Bula:
         #Make list of the minimum distance to fpt for each apt
         min_dist_lst,min_fptindex_lst,smooth_fac_lst = helper_min_dist4apt(apts_in_fpts,analysis_pts_,smooth_factor)            
         
-        
-        
         #Main function apply formula to min dist of each apt
         #This is ordered by fpt so we can weight it later
         #Careful when adding lists! They are complex objects
@@ -315,18 +313,16 @@ class Bula:
                 value_lst[i] = wtd_val_inc 
         #Done!
         return value_lst
-    def set_bula_height4viz(self,shape_node_lst,scale_factor):
+    def set_bula_height4viz(self,shape_node_lst):
         for shape_node in shape_node_lst:
             buladata = shape_node.grammar.type['bula_data']
             bpt_lst = buladata.bpt_lst
             val_lst =  buladata.value_lst
             for i,bp_tuple in enumerate(zip(bpt_lst,val_lst)):
                 bpt,val = bp_tuple[0],bp_tuple[1]
-                vizpt = rc.Geometry.Point3d(bpt[0],bpt[1],val*scale_factor)
+                vizpt = rc.Geometry.Point3d(bpt[0],bpt[1],val)
                 buladata.bpt_viz_lst[i] = vizpt
-    def set_bula_line4viz(self):
-        pass
-        """
+
         #Extract bulapt for each lot and visualize as line graph
         line = []
         newlots = []
